@@ -1,0 +1,27 @@
+services:
+  db:
+  	port:
+  	 - 5432:5432
+  	container-name: postgres-container
+  	image: postgres
+  	enviroment:
+  		- POSTGRES_DB: test
+  		- POSTGRES_USER: postgres
+  		- POSTGRES_PASSWORD: postgres
+  	volumes:
+  		- desktop/task: /var/lib/postgresql/data
+  	restart: always
+  backend:
+  	build: .
+  	container-name: testcustomer-order
+  	ports:
+  		- 8089:8089
+  	enviroment:
+  		db-url: jdbc:postgresql://db:5432/test
+  		db-username: postgres
+  		db-password: postgres
+  	depends_on: 
+  		- db:
+  	restart: always
+  	
+  	
